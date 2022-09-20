@@ -7,7 +7,7 @@ function StarWarsProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState('');
 
   const getPlanets = (array) => setSearchedPlanets(array);
-  const setFilter = (array) => setFilteredPlanets(array)
+  const setFilter = (array) => setFilteredPlanets(array);
 
   const contextValue = {
     searchedPlanets,
