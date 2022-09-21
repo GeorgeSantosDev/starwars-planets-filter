@@ -36,6 +36,22 @@ function StarWarsProvider({ children }) {
       column: columnElements[0], comparison: 'maior que', value: '0' });
   };
 
+  const handleClickDeleteFilter = (filter) => {
+    const newNumericFilters = filters.filterByNumericValues
+      .filter((numericValues) => numericValues.column !== filter);
+    setFilters((prev) => ({
+      ...prev,
+      filterByNumericValues: newNumericFilters,
+    }));
+  };
+
+  const handleClickDeleteAllFilters = () => {
+    setFilters((prev) => ({
+      ...prev,
+      filterByNumericValues: [],
+    }));
+  };
+
   const contextValue = {
     searchedPlanets,
     getPlanets,
@@ -46,6 +62,8 @@ function StarWarsProvider({ children }) {
     handleClickNumericFilter,
     columnValues,
     columnElements,
+    handleClickDeleteFilter,
+    handleClickDeleteAllFilters,
   };
 
   return (
