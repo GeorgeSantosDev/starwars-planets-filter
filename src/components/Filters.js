@@ -52,6 +52,9 @@ function Filters() {
     }
   }, [filters]);
 
+  const columnValues = ['population', 'orbital_period', 'diameter', 'rotation_period',
+    'surface_water'];
+
   return (
     <form>
       <fieldset>
@@ -72,11 +75,17 @@ function Filters() {
             value={ column }
             onChange={ handleChangeNumericFilter }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {
+              filterByNumericValues.length > 0 ? filterByNumericValues
+                .reduce((acc, numericFilter) => (
+                  acc.filter((param) => param !== numericFilter.column)
+                ), columnValues).map((param, i) => (
+                  <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+                ))
+                : columnValues.map((param, i) => (
+                  <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+                ))
+            }
           </select>
         </label>
         <label htmlFor="comparison">
