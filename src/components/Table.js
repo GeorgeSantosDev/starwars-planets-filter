@@ -9,7 +9,7 @@ function Table() {
       <thead>
         <tr>
           {
-            filteredPlanets && Object.keys(filteredPlanets[0])
+            filteredPlanets.length > 0 && Object.keys(filteredPlanets[0])
               .filter((key) => key !== 'residents').map((head) => (
                 <th key={ head }>{ head }</th>
               ))
@@ -18,7 +18,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          filteredPlanets && filteredPlanets.map((planet, i) => (
+          filteredPlanets.length > 0 && filteredPlanets.map((planet, i) => (
             <tr key={ i }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
