@@ -20,11 +20,20 @@ function StarWarsProvider({ children }) {
       filterByName: { name: value } }));
   };
 
-  const handleClickNumericFilter = (filter) => {
+  const columnValues = ['population', 'orbital_period', 'diameter', 'rotation_period',
+    'surface_water'];
+
+  const columnElements = filters.filterByNumericValues.reduce((acc, numericFilter) => (
+    acc.filter((param) => param !== numericFilter.column)
+  ), columnValues);
+
+  const handleClickNumericFilter = (filter, funcReset) => {
     setFilters((prev) => ({
       ...prev,
       filterByNumericValues: [...prev.filterByNumericValues, filter],
     }));
+    funcReset({
+      column: columnElements[0], comparison: 'maior que', value: '0' });
   };
 
   const contextValue = {
@@ -35,6 +44,8 @@ function StarWarsProvider({ children }) {
     filters,
     handleChangeName,
     handleClickNumericFilter,
+    columnValues,
+    columnElements,
   };
 
   return (

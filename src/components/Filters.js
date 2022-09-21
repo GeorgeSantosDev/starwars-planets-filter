@@ -7,7 +7,9 @@ function Filters() {
     filteredPlanets,
     setFilter,
     searchedPlanets,
-    handleClickNumericFilter } = useContext(starWarsContext);
+    handleClickNumericFilter,
+    columnValues,
+    columnElements } = useContext(starWarsContext);
 
   const { filterByName: { name }, filterByNumericValues } = filters;
 
@@ -52,9 +54,6 @@ function Filters() {
     }
   }, [filters]);
 
-  const columnValues = ['population', 'orbital_period', 'diameter', 'rotation_period',
-    'surface_water'];
-
   return (
     <form>
       <fieldset>
@@ -76,12 +75,9 @@ function Filters() {
             onChange={ handleChangeNumericFilter }
           >
             {
-              filterByNumericValues.length > 0 ? filterByNumericValues
-                .reduce((acc, numericFilter) => (
-                  acc.filter((param) => param !== numericFilter.column)
-                ), columnValues).map((param, i) => (
-                  <option value={ param } key={ `${i}-${param}` }>{ param }</option>
-                ))
+              filterByNumericValues.length > 0 ? columnElements.map((param, i) => (
+                <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+              ))
                 : columnValues.map((param, i) => (
                   <option value={ param } key={ `${i}-${param}` }>{ param }</option>
                 ))
@@ -113,7 +109,9 @@ function Filters() {
         </label>
         <button
           type="button"
-          onClick={ () => handleClickNumericFilter(filterNumericValues) }
+          onClick={
+            () => handleClickNumericFilter(filterNumericValues, setFilterNumericValues)
+          }
           data-testid="button-filter"
         >
           Filtrar
