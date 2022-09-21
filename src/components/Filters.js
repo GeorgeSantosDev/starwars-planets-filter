@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import starWarsContext from '../context/starWarsContext';
 
 function Filters() {
@@ -6,17 +6,49 @@ function Filters() {
     filters,
     filteredPlanets,
     setFilter,
-    searchedPlanets } = useContext(starWarsContext);
+    searchedPlanets,
+    handleClickNumericFilter } = useContext(starWarsContext);
 
-  const { filterByName: { name } } = filters;
+  const { filterByName: { name }, filterByNumericValues } = filters;
+
+  const [filterNumericValues, setFilterNumericValues] = useState({
+    column: 'population', comparison: 'maior que', value: '0' });
+
+  const { column, comparison, value } = filterNumericValues;
+
+  const handleChangeNumericFilter = ({ target }) => {
+    setFilterNumericValues((prev) => ({
+      ...prev,
+      [target.name]: target.value,
+    }));
+  };
 
   useEffect(() => {
     if (name) {
-      const planetsFilterdByName = [...filteredPlanets].filter((planet) => planet.name
+      const planetsFilteredByName = [...filteredPlanets].filter((planet) => planet.name
         .includes(name));
-      setFilter(planetsFilterdByName);
+      setFilter(planetsFilteredByName);
     } else {
       setFilter(searchedPlanets);
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    if (filterByNumericValues.length > 0) {
+      const planetsFilteredByNumericValues = filterByNumericValues
+        .reduce((acc, values) => {
+          switch (values.comparison) {
+          case 'maior que': return acc
+            .filter((planet) => Number(planet[values.column]) > Number(values.value));
+          case 'menor que': return acc
+            .filter((planet) => Number(planet[values.column]) < Number(values.value));
+          default: return acc
+            .filter((planet) => Number(planet[values.column]) === Number(values.value));
+          }
+        },
+        [...filteredPlanets]);
+
+      setFilter(planetsFilteredByNumericValues);
     }
   }, [filters]);
 
@@ -32,6 +64,51 @@ function Filters() {
             value={ name }
           />
         </label>
+        <label htmlFor="column">
+          <select
+            data-testid="column-filter"
+            id="column"
+            name="column"
+            value={ column }
+            onChange={ handleChangeNumericFilter }
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
+        <label htmlFor="comparison">
+          <select
+            data-testid="comparison-filter"
+            id="comparison"
+            name="comparison"
+            value={ comparison }
+            onChange={ handleChangeNumericFilter }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+        </label>
+        <label htmlFor="value">
+          <input
+            type="text"
+            data-testid="value-filter"
+            id="value"
+            name="value"
+            value={ value }
+            onChange={ handleChangeNumericFilter }
+          />
+        </label>
+        <button
+          type="button"
+          onClick={ () => handleClickNumericFilter(filterNumericValues) }
+          data-testid="button-filter"
+        >
+          Filtrar
+        </button>
       </fieldset>
     </form>
   );
