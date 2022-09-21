@@ -13,7 +13,7 @@ function Header() {
     };
 
     starWarsPlanets();
-  }, [getPlanets, setFilter]);
+  }, []);
 
   return (
     <header>
