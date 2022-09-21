@@ -9,7 +9,9 @@ function Filters() {
     searchedPlanets,
     handleClickNumericFilter,
     columnValues,
-    columnElements } = useContext(starWarsContext);
+    columnElements,
+    handleClickDeleteFilter,
+    handleClickDeleteAllFilters } = useContext(starWarsContext);
 
   const { filterByName: { name }, filterByNumericValues } = filters;
 
@@ -48,12 +50,12 @@ function Filters() {
             .filter((planet) => Number(planet[values.column]) === Number(values.value));
           }
         },
-        [...filteredPlanets]);
+        [...searchedPlanets]);
 
       setFilter(planetsFilteredByNumericValues);
+      console.log(filters.filterByNumericValues);
     }
   }, [filters]);
-
   return (
     <form>
       <fieldset>
@@ -116,6 +118,31 @@ function Filters() {
         >
           Filtrar
         </button>
+        <section>
+          {
+            filterByNumericValues.map((numericValues, i) => {
+              const { column: a, comparison: b, value: c } = numericValues;
+              return (
+                <div key={ `${i}-${c}` } data-testid="filter">
+                  <p>{ `${a}-${b}-${c}` }</p>
+                  <button
+                    type="button"
+                    onClick={ () => handleClickDeleteFilter(a) }
+                  >
+                    X
+                  </button>
+                </div>
+              );
+            })
+          }
+          <button
+            type="button"
+            onClick={ () => handleClickDeleteAllFilters() }
+            data-testid="button-remove-filters"
+          >
+            Remover todos os filtros
+          </button>
+        </section>
       </fieldset>
     </form>
   );
