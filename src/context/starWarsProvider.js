@@ -7,7 +7,8 @@ function StarWarsProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   const [filters, setFilters] = useState({
-    filterByName: { name: '' } });
+    filterByName: { name: '' },
+    filterByNumericValues: [] });
 
   const getPlanets = (array) => setSearchedPlanets(array);
   const setFilter = (array) => setFilteredPlanets(array);
@@ -19,6 +20,13 @@ function StarWarsProvider({ children }) {
       filterByName: { name: value } }));
   };
 
+  const handleClickNumericFilter = (filter) => {
+    setFilters((prev) => ({
+      ...prev,
+      filterByNumericValues: [...prev.filterByNumericValues, filter],
+    }));
+  };
+
   const contextValue = {
     searchedPlanets,
     getPlanets,
@@ -26,6 +34,7 @@ function StarWarsProvider({ children }) {
     setFilter,
     filters,
     handleChangeName,
+    handleClickNumericFilter,
   };
 
   return (
