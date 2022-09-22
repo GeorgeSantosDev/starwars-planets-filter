@@ -11,12 +11,15 @@ function Filters() {
     columnValues,
     columnElements,
     handleClickDeleteFilter,
-    handleClickDeleteAllFilters } = useContext(starWarsContext);
+    handleClickDeleteAllFilters,
+    handleClickSort } = useContext(starWarsContext);
 
-  const { filterByName: { name }, filterByNumericValues } = filters;
+  const { filterByName: { name }, filterByNumericValues, order } = filters;
 
   const [filterNumericValues, setFilterNumericValues] = useState({
     column: 'population', comparison: 'maior que', value: '0' });
+
+  const [sortValues, setSortValues] = useState({ column: 'population', sort: '' });
 
   const { column, comparison, value } = filterNumericValues;
 
@@ -27,13 +30,43 @@ function Filters() {
     }));
   };
 
+  const separateArrayNumbers = (array) => (
+    array.filter((planet) => planet[order.column] !== 'unknown')
+  );
+
+  const separateArrayUnknowns = (array) => (
+    array.filter((planet) => planet[order.column] === 'unknown')
+  );
+
+  const isSorted = (array) => {
+    const kindOfSort = {
+      ASC: () => {
+        const numbers = separateArrayNumbers(array);
+        const unknowns = separateArrayUnknowns(array);
+        const ordenatedArray = numbers
+          .sort((a, b) => Number(a[order.column]) - Number(b[order.column]));
+        return [...ordenatedArray, ...unknowns];
+      },
+      DESC: () => {
+        const numbers = separateArrayNumbers(array);
+        const unknowns = separateArrayUnknowns(array);
+        const ordenatedArray = numbers
+          .sort((a, b) => Number(b[order.column]) - Number(a[order.column]));
+        return [...ordenatedArray, ...unknowns];
+      },
+    };
+
+    return order.sort ? kindOfSort[order.sort] : array;
+  };
+
   useEffect(() => {
     if (name) {
       const planetsFilteredByName = [...filteredPlanets].filter((planet) => planet.name
         .includes(name));
-      setFilter(planetsFilteredByName);
+
+      setFilter(isSorted(planetsFilteredByName));
     } else {
-      setFilter(searchedPlanets);
+      setFilter(isSorted([...searchedPlanets]));
     }
   }, [filters]);
 
@@ -52,10 +85,18 @@ function Filters() {
         },
         [...searchedPlanets]);
 
-      setFilter(planetsFilteredByNumericValues);
-      console.log(filters.filterByNumericValues);
+      setFilter(isSorted(planetsFilteredByNumericValues));
     }
   }, [filters]);
+
+  const handleClickChooseSort = ({ target }) => {
+    setSortValues((prev) => ({ ...prev, sort: target.value }));
+  };
+
+  const handleChangeSortedColumn = ({ target }) => {
+    setSortValues((prev) => ({ ...prev, column: target.value }));
+  };
+
   return (
     <form>
       <fieldset>
@@ -143,6 +184,52 @@ function Filters() {
             Remover todos os filtros
           </button>
         </section>
+        <label htmlFor="column-sort">
+          <select
+            data-testid="column-sort"
+            id="column-sort"
+            name="column-sort"
+            value={ sortValues.column }
+            onChange={ (e) => handleChangeSortedColumn(e) }
+          >
+            {
+              columnValues.map((param, i) => (
+                <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+              ))
+            }
+          </select>
+        </label>
+        <label htmlFor="asc">
+          Ascendente
+          <input
+            type="radio"
+            id="asc"
+            name="asc"
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            checked={ sortValues.sort === 'ASC' }
+            onChange={ (e) => handleClickChooseSort(e) }
+          />
+        </label>
+        <label htmlFor="desc">
+          Descendente
+          <input
+            type="radio"
+            id="desc"
+            name="desc"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            checked={ sortValues.sort === 'DESC' }
+            onChange={ (e) => handleClickChooseSort(e) }
+          />
+        </label>
+        <button
+          type="button"
+          onClick={ () => handleClickSort(sortValues) }
+          data-testid="column-sort-button"
+        >
+          Ordenar
+        </button>
       </fieldset>
     </form>
   );
