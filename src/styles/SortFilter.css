@@ -1,0 +1,11 @@
+.sort-filter-container {
+  width: 60%;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sort-btn {
+  padding: 1rem;
+}

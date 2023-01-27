@@ -1,23 +1,34 @@
 import React, { useEffect, useContext } from 'react';
 import starWarsContext from '../context/starWarsContext';
-import fetchPlanets from '../services/fetchPlanets';
+import logo from '../images/logo.gif';
+import '../styles/Header.css';
 
 function Header() {
-  const { getPlanets, setFilter } = useContext(starWarsContext);
+  const { setSearchedPlanets, setFilteredPlanets } = useContext(starWarsContext);
+
+  const fetchPlanets = async () => {
+    try {
+      const response = await fetch('https://swapi.dev/api/planets');
+      const data = await response.json();
+      return data.results;
+    } catch (error) {
+      console.log(`Ocorreu um erro: ${error}`);
+    }
+  };
 
   useEffect(() => {
-    const starWarsPlanets = async () => {
+    const getPlanets = async () => {
       const planets = await fetchPlanets();
-      getPlanets(planets);
-      setFilter(planets);
+      setSearchedPlanets(planets);
+      setFilteredPlanets(planets);
     };
 
-    starWarsPlanets();
+    getPlanets();
   }, []);
 
   return (
     <header>
-      <h1>Projeto StarWars Planet</h1>
+      <img src={ logo } alt="StarWars" />
     </header>
   );
 }

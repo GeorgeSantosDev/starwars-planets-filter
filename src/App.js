@@ -6,7 +6,7 @@ import Table from './components/Table';
 
 function App() {
   return (
-    <StarWarsProvider>
+    <StarWarsProvider className="app">
       <Header />
       <Filters />
       <Table />

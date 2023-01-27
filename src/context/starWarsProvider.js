@@ -11,68 +11,13 @@ function StarWarsProvider({ children }) {
     filterByNumericValues: [],
     order: { column: '', sort: '' } });
 
-  const getPlanets = (array) => setSearchedPlanets(array);
-  const setFilter = (array) => setFilteredPlanets(array);
-
-  const handleChangeName = ({ target }) => {
-    const { value } = target;
-    setFilters((prev) => ({
-      ...prev,
-      filterByName: { name: value } }));
-  };
-
-  const columnValues = ['population', 'orbital_period', 'diameter', 'rotation_period',
-    'surface_water'];
-
-  const columnElements = filters.filterByNumericValues.reduce((acc, numericFilter) => (
-    acc.filter((param) => param !== numericFilter.column)
-  ), columnValues);
-
-  const handleClickNumericFilter = (filter, funcReset) => {
-    setFilters((prev) => ({
-      ...prev,
-      filterByNumericValues: [...prev.filterByNumericValues, filter],
-    }));
-    funcReset({
-      column: columnElements[0], comparison: 'maior que', value: '0' });
-  };
-
-  const handleClickDeleteFilter = (filter) => {
-    const newNumericFilters = filters.filterByNumericValues
-      .filter((numericValues) => numericValues.column !== filter);
-    setFilters((prev) => ({
-      ...prev,
-      filterByNumericValues: newNumericFilters,
-    }));
-  };
-
-  const handleClickDeleteAllFilters = () => {
-    setFilters((prev) => ({
-      ...prev,
-      filterByNumericValues: [],
-    }));
-  };
-
-  const handleClickSort = (sort) => {
-    setFilters((prev) => ({
-      ...prev,
-      order: sort,
-    }));
-  };
-
   const contextValue = {
     searchedPlanets,
-    getPlanets,
+    setSearchedPlanets,
     filteredPlanets,
-    setFilter,
+    setFilteredPlanets,
     filters,
-    handleChangeName,
-    handleClickNumericFilter,
-    columnValues,
-    columnElements,
-    handleClickDeleteFilter,
-    handleClickDeleteAllFilters,
-    handleClickSort,
+    setFilters,
   };
 
   return (
