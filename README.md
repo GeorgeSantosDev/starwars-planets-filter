@@ -1,13 +1,43 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+<h1>StarWars Planets</h1>
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+<p>
+  StarWars Planets is Single Page Application. It was developed using React and Context API to controller the global states. The user   is able to filter
+  a planet by name, population, orbital period, rotation period, diameter and surface water. Is posible to sort table in descending and ascending order  
+  (population, orbital period, rotation period, diameter and surface water).
+  
+  The application was deployed with Vercel.
+</p>
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+<h2>
+ Built With
+</h2>
+
+<p> - HTML </p>
+<p> - CSS </p>
+<p> - JavaScript </p>
+<p> - React </p>
+<p> - React Hooks </p>
+<p> - Context API </p>
+<p> - Bootstrap </p>
+<p> - API StarWars planets: https://swapi.dev/api/planets </p>
+
+<h2>
+  How try the application?
+</h2>
+
+<p> You can try acessing this url: https://starwars-planets-filter-woad.vercel.app/</p>
+
+<br />
+<br />
+<br /> 
+
+<p> Any questions or suggestions? Contact me </p>
+
+<a href="https://www.linkedin.com/in/george-santos-dev" rel="nofollow">
+  <img
+    height="50px"
+    width="50px"
+    src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/linkedin/linkedin-original.svg"
+    alt="LinkedIn"
+  />   
+</a>
