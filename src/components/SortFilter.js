@@ -38,7 +38,9 @@ function SortFilter() {
         >
           {
             columnValues.map((param, i) => (
-              <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+              <option value={ param } key={ `${i}-${param}` }>
+                { param.replace('_', ' ') }
+              </option>
             ))
           }
         </select>

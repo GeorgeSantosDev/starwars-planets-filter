@@ -89,10 +89,14 @@ function NumericFilter() {
           >
             {
               filterByNumericValues.length > 0 ? columnElements.map((param, i) => (
-                <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+                <option value={ param } key={ `${i}-${param}` }>
+                  { param.replace('_', ' ') }
+                </option>
               ))
                 : columnValues.map((param, i) => (
-                  <option value={ param } key={ `${i}-${param}` }>{ param }</option>
+                  <option value={ param } key={ `${i}-${param}` }>
+                    { param.replace('_', ' ') }
+                  </option>
                 ))
             }
           </select>
@@ -143,7 +147,7 @@ function NumericFilter() {
             const { column: a, comparison: b, value: c } = numericValues;
             return (
               <div key={ `${i}-${c}` } data-testid="filter" className="numeric-filter">
-                <p>{ `${a}-${b}-${c}` }</p>
+                <p>{ `${a.replace('_', ' ').toUpperCase()} ${b.toUpperCase()} ${c}` }</p>
                 <button
                   type="button"
                   className="btn btn-outline-light"
